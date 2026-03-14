@@ -8,6 +8,7 @@ The repository should evolve toward a hybrid architecture where:
 
 - the control plane is server-hosted
 - each task run gets a fresh agent session
+- workers call an executor abstraction rather than embedding one agent runtime directly
 - deterministic adapters gather and validate data
 - a required local desktop connector exposes approved local capabilities
 
@@ -37,6 +38,7 @@ The repo is in the design/bootstrap stage.
 Current state as of 2026-03-13:
 
 - architecture is defined at a high level
+- the prototype executor decision is `codex exec` behind an executor abstraction
 - no implementation has been started yet
 - the design reference lives in `docs/design/agent-cron-design.md`
 
@@ -47,6 +49,8 @@ Prefer these rules when extending the repo:
 - server control plane first
 - required local desktop connector for local-only capabilities
 - fresh agent session per `job_run`
+- keep executor integration behind an abstraction boundary
+- treat `codex exec` as prototype-only executor infrastructure
 - deterministic collectors before agent reasoning
 - structured JSON outputs for downstream actions
 - draft-first safety for social posting integrations

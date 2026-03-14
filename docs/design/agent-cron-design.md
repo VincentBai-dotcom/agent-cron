@@ -224,13 +224,59 @@ Each worker should:
 
 - claim a queued `job_run`
 - load the task definition
-- start a fresh agent session
+- invoke a configured executor backend to start a fresh agent session
 - call deterministic collectors first
 - run the agent synthesis step
 - validate outputs
 - trigger downstream actions
 - store logs, outputs, and artifacts
 - mark terminal state
+
+### Executor backend
+
+The worker should not be tightly coupled to one agent runtime implementation.
+
+Instead, it should call an executor abstraction with a stable contract:
+
+- task objective
+- time window and normalized input data
+- allowed tools and connector capabilities
+- workspace or path context when needed
+- required output schema
+- timeout and execution limits
+
+The executor should return:
+
+- structured output
+- executor status
+- transcript or transcript summary
+- artifact references when available
+
+This keeps the worker, task registry, and policy layer stable even if the execution backend changes later.
+
+### Prototype executor: `codex exec`
+
+For the prototype, the first executor backend should shell out to `codex exec` on the server machine.
+
+This is a speed-optimized implementation choice, not the long-term architectural target.
+
+The prototype backend should assume:
+
+- `codex` is installed on the server
+- the server machine is already authenticated through the Codex CLI
+- the worker can capture and normalize CLI output into the system's run record
+- concurrency is conservative until real operational behavior is understood
+
+This prototype path avoids building a custom API-based agent runtime before the rest of the orchestration system exists.
+
+### Production-target executor
+
+The long-term executor target should be API or SDK based.
+
+The preferred migration path is:
+
+- keep the worker-to-executor contract stable
+- replace the `codex exec` backend with an OpenAI API or Agents SDK backend when stronger observability, structured integration, and service-style authentication become necessary
 
 ### Local desktop connector
 
@@ -281,6 +327,8 @@ For the initial `github-activity-to-xiaohongshu-draft` task:
 8. Because the task is draft-first, the system routes the draft action through the local connector, which calls the local `xiaohongshu-mcp` boundary.
 9. The control plane stores the run result, artifacts, transcript summary, and action metadata.
 10. The dashboard exposes the generated draft for review.
+
+For the prototype executor, step 3 is implemented by the worker invoking `codex exec` through the executor abstraction and then normalizing the CLI result back into the `job_run` record.
 
 ## Local Desktop Connector Model
 
@@ -459,6 +507,13 @@ Each run should have:
 - progress heartbeat updates
 - a terminal state
 
+For the prototype `codex exec` backend, the worker should also enforce:
+
+- explicit process timeouts
+- exit-code handling
+- normalization of stdout or generated artifacts into structured outputs
+- clear failure states for missing CLI authentication or unavailable CLI installation
+
 ### Capture observability data
 
 The system should persist:
@@ -491,6 +546,8 @@ Secrets and login state should stay as close as possible to where they are neede
 
 For the initial Xiaohongshu workflow, local session state should remain on the desktop connector side.
 
+For the prototype executor, OpenAI-side authentication is represented by the server's Codex CLI login state rather than an application-managed API credential.
+
 ## MVP Scope
 
 The MVP should prove the full architecture on one end-to-end workflow.
@@ -500,6 +557,7 @@ The MVP should prove the full architecture on one end-to-end workflow.
 - server-hosted control plane
 - scheduler
 - queue-backed worker execution
+- executor abstraction with `codex exec` as the first backend
 - required local desktop connector
 - GitHub activity collection and normalization
 - agent-generated summary and Xiaohongshu draft output
@@ -514,6 +572,7 @@ The MVP should prove the full architecture on one end-to-end workflow.
 - broad internet research tasks
 - advanced browser automation beyond the connector boundary
 - large-scale worker fleets
+- replacing the prototype `codex exec` executor with an API or SDK-backed executor
 
 ## Open Questions
 
