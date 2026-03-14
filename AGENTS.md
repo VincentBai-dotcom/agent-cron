@@ -33,13 +33,16 @@ Out of scope:
 
 ## Current Status
 
-The repo is in the design/bootstrap stage.
+The repo is in the initial scaffold stage.
 
-Current state as of 2026-03-13:
+Current state as of 2026-03-14:
 
 - architecture is defined at a high level
 - the prototype executor decision is `codex exec` behind an executor abstraction
-- no implementation has been started yet
+- the Bun workspace scaffold exists
+- Hono scaffolds exist for `apps/control-plane` and `apps/local-connector`
+- the Electron `react-ts` scaffold exists for `apps/desktop`
+- `apps/worker` and the first shared packages exist as placeholders
 - the design reference lives in `docs/design/agent-cron-design.md`
 
 ## Working Principles
@@ -51,6 +54,8 @@ Prefer these rules when extending the repo:
 - fresh agent session per `job_run`
 - keep executor integration behind an abstraction boundary
 - treat `codex exec` as prototype-only executor infrastructure
+- keep the desktop shell responsible for UI and connector supervision, not connector service logic
+- ship the local connector as a Bun-compiled executable in packaged desktop builds
 - deterministic collectors before agent reasoning
 - structured JSON outputs for downstream actions
 - draft-first safety for social posting integrations

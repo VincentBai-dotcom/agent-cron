@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+dist
+out
+coverage
+.env
+.env.*
+!.env.example
+apps/local-connector/build/local-connector
+apps/local-connector/build/local-connector.exe
+apps/local-connector/build/local-connector-*
