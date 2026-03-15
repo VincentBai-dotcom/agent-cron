@@ -61,6 +61,12 @@ Prefer these rules when extending the repo:
 - draft-first safety for social posting integrations
 - task-scoped tool permissions only
 
+## Environment Conventions
+
+The Drizzle package expects its database configuration to live with the package itself.
+
+Use `packages/db/.env.example` as the baseline for local `DATABASE_URL` conventions.
+
 ## Intended Repository Shape
 
 The repo should eventually separate into:
