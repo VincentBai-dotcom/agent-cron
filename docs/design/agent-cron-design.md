@@ -14,6 +14,19 @@ Each task should:
 
 This is a living design document. It should be updated as architectural decisions change.
 
+## Current Status
+
+As of 2026-03-14, the repository has an initial scaffold that reflects this design:
+
+- a Bun workspace root
+- `apps/control-plane` scaffolded with Hono
+- `apps/local-connector` scaffolded with Hono
+- `apps/desktop` scaffolded with Electron and React
+- `apps/worker` scaffolded as a Bun TypeScript process
+- placeholder shared packages for DB, policy, adapters, and task definitions
+
+This scaffold is structural only. It does not yet implement real scheduling, persistence, task execution, or connector protocols.
+
 ## Initial Use Case
 
 The first concrete workflow is:

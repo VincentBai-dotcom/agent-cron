@@ -1,0 +1,18 @@
+{
+  "name": "@agent-cron/control-plane",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "build": "bun build ./src/index.ts --outdir ./dist --target bun",
+    "typecheck": "bunx tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "hono": "^4.12.8"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
+  }
+}

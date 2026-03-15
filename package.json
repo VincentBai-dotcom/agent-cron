@@ -1,0 +1,18 @@
+{
+  "name": "agent-cron",
+  "private": true,
+  "packageManager": "bun@1.3.9",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:control-plane": "bun run --cwd apps/control-plane dev",
+    "dev:local-connector": "bun run --cwd apps/local-connector dev",
+    "dev:worker": "bun run --cwd apps/worker dev",
+    "dev:desktop": "bun run --cwd apps/desktop dev",
+    "lint": "bun run --cwd apps/desktop lint",
+    "typecheck": "bun run --cwd apps/control-plane typecheck && bun run --cwd apps/local-connector typecheck && bun run --cwd apps/worker typecheck && bun run --cwd packages/shared typecheck && bun run --cwd packages/task-registry typecheck && bun run --cwd packages/db typecheck && bun run --cwd packages/policy-engine typecheck && bun run --cwd packages/adapters-github typecheck && bun run --cwd packages/adapters-xiaohongshu typecheck",
+    "build": "bun run --cwd apps/control-plane build && bun run --cwd apps/local-connector build && bun run --cwd apps/worker build && bun run --cwd apps/desktop build && bun run --cwd packages/shared build && bun run --cwd packages/task-registry build && bun run --cwd packages/db build && bun run --cwd packages/policy-engine build && bun run --cwd packages/adapters-github build && bun run --cwd packages/adapters-xiaohongshu build"
+  }
+}
