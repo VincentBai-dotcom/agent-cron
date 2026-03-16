@@ -6,10 +6,14 @@
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "build": "bun build ./src/index.ts --outdir ./dist --target bun",
-    "typecheck": "bunx tsc --noEmit -p tsconfig.json"
+    "typecheck": "bunx tsc --noEmit -p tsconfig.json",
+    "test": "bun --env-file=../../packages/db/.env test"
   },
   "dependencies": {
-    "hono": "^4.12.8"
+    "@agent-cron/db": "workspace:*",
+    "drizzle-orm": "^0.44.7",
+    "hono": "^4.12.8",
+    "zod": "^4.1.11"
   },
   "devDependencies": {
     "@types/bun": "latest",

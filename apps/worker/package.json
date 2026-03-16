@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "bun --hot src/index.ts",
     "build": "bun build ./src/index.ts --outdir ./dist --target bun",
-    "typecheck": "bunx tsc --noEmit -p tsconfig.json"
+    "typecheck": "bunx tsc --noEmit -p tsconfig.json",
+    "test": "bun --env-file=../../packages/db/.env test"
+  },
+  "dependencies": {
+    "@agent-cron/db": "workspace:*",
+    "drizzle-orm": "^0.44.7"
   },
   "devDependencies": {
     "@types/bun": "latest",
